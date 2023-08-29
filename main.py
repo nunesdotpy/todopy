@@ -1,4 +1,4 @@
-import todo
+import interface
 
 if __name__ == '__main__':
-    todo.userCli()
+    interface.userCli()
