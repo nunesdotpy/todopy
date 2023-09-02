@@ -1,16 +1,30 @@
-import os
+from os import system, listdir
+from time import sleep
+import tasks
 
-todolist = ["arrumar a casa", "ajeitar site do canil"]
+# importando as tasks salvas
+todolist = tasks.todolist
+newTasks = []
+completedTasks = []
+
 
 def userCli():
-    os.system("cls") or None
+    system("clear") or None
     i = 0
     if len(todolist) == 0:
         print("Nenhuma tarefa no momento.")
     else:
-        while i < len(todolist):
-            print(f"{[i+1]} | {todolist[i]}")
-            i += 1
+        if todolist[i] in completedTasks:
+            return    
+        else:
+            for task in todolist:
+                print(f"[{i+1}] | {task}")
+                i += 1
+    if len(completedTasks) == 0:
+        print("\n--\n\nNenhuma tarefa completa no momento.")
+    else:
+        for completedTask in completedTasks:
+            print(f"[{i+1}] | {completedTask}")
     userInput()
 
 def userInput():
@@ -19,7 +33,8 @@ def userInput():
     match userOpt:
         case 1:
             addToList = input("Digite o nome da tarefa\n>> ")
-            todolist.append(addToList)
+            tasks.createTask(addToList)
+            todolist.append(f"\n{addToList}")
             userCli()
         case 2:
             if len(todolist) == 0:
@@ -27,7 +42,9 @@ def userInput():
             else:
                 removeFromList = int(input("Digite o número da tarefa a ser excluida.\n>> "))
                 todolist.pop(removeFromList-1)
+                tasks.removeTask(removeFromList-1)
                 userCli()
+                print(f"{todolist[removeFromList-1]}")
         case 3:
             print("Até logo")
 
